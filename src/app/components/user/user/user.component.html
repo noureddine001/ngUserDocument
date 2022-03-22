@@ -1,0 +1,108 @@
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar navbar-nav  " >
+    <li class="ml-sm-2">
+      <button (click) = "onGetAllUsers()" class="btn btn-sm btn-outline-info">All Users</button>
+    </li>
+    <li class="ml-sm-2">
+      <button (click)="onNewUser()" class="btn btn-sm btn-outline-info">Add User</button>
+    </li>  
+    <li class="ml-sm-2">
+      <button (click)="onGetAllDocument()" class="btn btn-sm btn-outline-info">All Documents</button>
+    </li>    
+  </ul>
+</nav>
+
+<div class="container" *ngIf="!check">
+  <ng-container *ngIf="users$ | async as result " [ngSwitch]="result.dataState">
+    <ng-container *ngSwitchCase="DataStateEnum.LOADING">
+      Loading.....
+    </ng-container>
+
+    <ng-container *ngSwitchCase="DataStateEnum.ERROR">
+      <div class="alert-danger">
+        {{result.errorMessage}}
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="DataStateEnum.LOADED">
+      <table class="table">
+        <tr>
+          <th>ID</th><th>First Name</th><th>Last Name</th><th>Edit User</th><th>Delete User</th><th>Documents</th><th>Upload File</th>
+        </tr>
+        <tr *ngFor="let u of result.data" >
+          <td>{{u.userId}}</td>
+          <td>{{u.firstName}}</td>
+          <td>{{u.lastName}}</td>      
+          
+          <td>
+            <button (click)="onEditUser(u)" class="btn btn-dark btn-sm bg-secondary ">
+              <!-- <span class="fa fa-edit lock" ></span> -->
+              upDate
+            </button>
+          </td>
+         
+          <td>
+            <button (click)="onDeleteUser(u)" class="btn  btn-danger btn-sm bg-danger">
+              <!-- <span class="fa fa-trash"></span> -->
+              Delete
+            </button>
+          </td>
+         
+          <td>
+            <button (click)="onGetUserDocument(u)" class="btn  btn-danger btn-sm bg-primary">
+              <!-- <span class="fa fa-trash"></span> -->
+              Document
+            </button>
+          </td>
+
+          <td>
+            <button (click)="onUploadFile(u)" class="btn  btn-danger btn-sm bg-success" >
+              Upload
+            </button>
+          </td>
+      </tr>
+      </table>
+    </ng-container>
+  </ng-container>
+</div>
+
+<div class="container" *ngIf="check">
+  <ng-container *ngIf="documents$ | async as result " [ngSwitch]="result.dataState">
+    <ng-container *ngSwitchCase="DataStateEnum.LOADING">
+      Loading.....
+    </ng-container>
+
+    <ng-container *ngSwitchCase="DataStateEnum.ERROR">
+      <div class="alert-danger">
+        {{result.errorMessage}}
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="DataStateEnum.LOADED">
+      <table class="table">
+        <tr>
+          <th>ID</th><th>document name</th><th>uploadURI</th><th>size</th><th>content</th><th>delete</th>
+        </tr>
+        <tr *ngFor="let doc of result.data" >
+            
+          <td>{{doc.docId}}</td>
+          <td>{{doc.docName}}</td>
+          <td>{{doc.uploadURI}}</td>     
+          <td>{{doc.size}}</td>   
+          <td>
+            <button  class="btn btn-dark btn-sm bg-secondary ">
+              <!-- <span class="fa fa-edit lock" ></span> -->
+              content
+            </button>
+          </td>
+          <td>
+            <button (click)="onDeletDocument(doc)" class="btn  btn-danger btn-sm bg-danger">
+              <!-- <span class="fa fa-trash"></span> -->
+              Delete
+            </button>
+          </td>              
+      </tr>
+      </table>
+    </ng-container>
+  </ng-container>
+</div>

@@ -1,0 +1,27 @@
+    <div class="container-xl" *ngIf="userFormGroup" >
+        <form [formGroup]="userFormGroup" >
+            <div class="form-group">
+                <label >Id User :</label>
+                <input type="text"  class="form-control" formControlName="userId"  readonly>
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                [ngClass]="{'is-invalid' : submitted && userFormGroup.controls.firstName.errors}" >
+                <div *ngIf="submitted && userFormGroup.controls.firstName.errors" class="invalid-feedback" >
+                <div *ngIf="userFormGroup.controls.firstName.errors.required">First Name is Required</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                [ngClass]="{'is-invalid' : submitted && userFormGroup.controls.lastName.errors}" >
+                <div *ngIf="submitted && userFormGroup.controls.lastName.errors" class="invalid-feedback" >
+                <div *ngIf="userFormGroup.controls.lastName.errors.required">Last Name is Required</div>
+                </div>
+            </div>        
+            <button  class="btn btn-primary" (click)="onUpDateUser()" >Update</button>
+        </form>
+    </div>
+
